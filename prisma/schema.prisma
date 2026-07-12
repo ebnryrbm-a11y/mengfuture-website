@@ -1,0 +1,141 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         String   @default("admin")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model CaseProject {
+  id             String   @id @default(cuid())
+  slug           String   @unique
+  titleZh        String
+  titleEn        String?
+  subtitleZh     String?
+  subtitleEn     String?
+  category       String
+  clientName     String?
+  coverImage     String?
+  contentZh      Json?
+  contentEn      Json?
+  model3dUrl     String?
+  tags           String[]
+  sortOrder      Int      @default(0)
+  status         String   @default("published")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([category])
+  @@index([status])
+}
+
+model Service {
+  id            String   @id @default(cuid())
+  slug          String   @unique
+  nameZh        String
+  nameEn        String?
+  icon          String?
+  descriptionZh String?
+  descriptionEn String?
+  detailZh      Json?
+  detailEn      Json?
+  sortOrder     Int      @default(0)
+  status        String   @default("published")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model TeamMember {
+  id          String   @id @default(cuid())
+  name        String
+  titleZh     String
+  titleEn     String?
+  avatar      String?
+  bioZh       String?
+  bioEn       String?
+  tags        String[]
+  socialLinks Json?
+  sortOrder   Int      @default(0)
+  status      String   @default("published")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Inquiry {
+  id            String   @id @default(cuid())
+  name          String
+  email         String?
+  phone         String?
+  type          String
+  message       String
+  attachmentUrl String?
+  status        String   @default("new")
+  sourceIp      String?
+  userAgent     String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([status])
+  @@index([type])
+}
+
+model Application {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  position  String
+  resumeUrl String?
+  message   String?
+  status    String   @default("new")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([position])
+}
+
+model AiTask {
+  id           String   @id @default(cuid())
+  taskType     String
+  status       String   @default("pending")
+  inputParams  Json
+  resultData   Json?
+  progress     Int      @default(0)
+  provider     String?
+  cost         Float?   @default(0)
+  sessionId    String?
+  errorMessage String?
+  createdAt    DateTime @default(now())
+  completedAt  DateTime?
+
+  @@index([status])
+  @@index([taskType])
+}
+
+model Media {
+  id         String   @id @default(cuid())
+  type       String
+  url        String
+  thumbnail  String?
+  name       String
+  size       Int?
+  mimeType   String?
+  category   String?
+  createdBy  String?
+  createdAt  DateTime @default(now())
+
+  @@index([type])
+  @@index([category])
+}
