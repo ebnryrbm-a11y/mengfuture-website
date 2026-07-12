@@ -139,3 +139,64 @@ model Media {
   @@index([type])
   @@index([category])
 }
+
+model CaseStudy {
+  id          Int      @id @default(autoincrement())
+  title       String
+  category    String
+  description String
+  content     String   @db.Text
+  imageUrl    String
+  tags        String
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ServiceItem {
+  id          Int      @id @default(autoincrement())
+  title       String
+  icon        String
+  description String
+  content     String   @db.Text
+  imageUrl    String
+  features    String
+  price       String?
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model TeamMemberCMS {
+  id          Int      @id @default(autoincrement())
+  name        String
+  role        String
+  description String
+  avatarUrl   String
+  socialLinks String
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Consultation {
+  id          Int      @id @default(autoincrement())
+  name        String
+  email       String
+  phone       String?
+  company     String?
+  service     String
+  message     String   @db.Text
+  status      String   @default("pending")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model UserCMS {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("admin")
+  createdAt DateTime @default(now())
+}
